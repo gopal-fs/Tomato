@@ -84,10 +84,13 @@ useEffect(() => {
   };
 
   if (authLoading || loading) return (
-    <div className='onload'>
-      <Navbar />
-      <p>Loading Orders Please Wait...</p>
+    <div className='load'>
+        <Navbar />
+        <div className='onload'>
+          <p>Loading Orders Please Wait...</p>
+        </div>
     </div>
+    
   )
 
   
