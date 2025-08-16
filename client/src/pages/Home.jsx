@@ -76,7 +76,7 @@ const fetchCart = async (suppressError = false) => {
     // ✅ Suppress "User not found" error gracefully
     if (msg === "User not found") {
       console.log("No user found yet, skipping cart fetch...");
-      return; // don't show toast
+      return; 
     }
 
     
@@ -154,7 +154,7 @@ const doSignInGoogle = async (e) => {
     // ✅ Only fetch cart AFTER user creation success
     setTimeout(() => fetchCart(true), 300); // small delay to let backend update
   } catch (e) {
-    toast.error(e.message);
+    console.log(e.message)
   }
 };
 
