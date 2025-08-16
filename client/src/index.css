@@ -996,6 +996,12 @@ input::-webkit-inner-spin-button {
 }
 
 @media(max-width:768px){
+    .noorder{
+        text-align: center;
+        margin-top: 50px;
+        font-size: 25px;
+    }
+    
     .container{
         height: 500px;
     }
