@@ -6,7 +6,10 @@ import userRouter from './routes/UserRouter.js';
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: ["https://tomato-tau-three.vercel.app"],
+    credentials: true,
+  }));
 app.use(express.json());
 
 app.get('/', (req, res) => {
