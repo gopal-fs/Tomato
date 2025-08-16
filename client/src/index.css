@@ -1042,9 +1042,6 @@ input::-webkit-inner-spin-button {
         align-items: center;
         margin-top: 40px;
         gap: 20px;
-        background-color: #fff4f2;
-        
-        box-shadow: 2px 4px 4px 8px rgba(0,0,0,0.5);
        
 
     }
