@@ -79,7 +79,7 @@ const fetchCart = async (suppressError = false) => {
       return; // don't show toast
     }
 
-    if (!suppressError) toast.error(msg);
+    
   }
 };
 

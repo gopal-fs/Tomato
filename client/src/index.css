@@ -517,12 +517,14 @@ a{
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     align-items: center;
     height: 80vh;
 }
 
 .no-cartitems h1{
-    font-size: 45px;
+    text-align: center;
+    font-size: 30px;
 }
 .no-cartitems button{
     background-color: tomato;
