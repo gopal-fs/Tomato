@@ -187,8 +187,8 @@ export const placeOrder = async (req, res) => {
       payment_method_types: ["card"],
       line_items,
       mode: "payment",
-      success_url: `https://tomato-frontend-o66z.onrender.com/myorders?success=true&order_id=${order_id}`,
-      cancel_url: `https://tomato-frontend-o66z.onrender.com/cart?canceled=true&order_id=${order_id}`,
+      success_url: `https://tomato-tau-three.vercel.app/myorders?success=true&order_id=${order_id}`,
+      cancel_url: `https://tomato-tau-three.vercel.app/cart?canceled=true&order_id=${order_id}`,
     });
 
     res.json({ id: session.id, success: true });
