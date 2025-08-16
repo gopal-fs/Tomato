@@ -58,45 +58,91 @@ const Home = () => {
     fetchData()
   }, [])
 
-  
-  
+  // Fetch cart data
+  useEffect(() => {
+    if (!user) return
+    fetchCart()
+  }, [user])
 
   // 👇 inside fetchCart()
-// Fetch Cart
-// Fetch Cart
-const fetchCart = async (uid, suppressError = false) => {
-  if (!uid) return;
+const fetchCart = async (suppressError = false) => {
+  if (!user) return;
   try {
-    const res = await axios.post(`${url}/getUser`, { user_id: uid });
+    const res = await axios.post(`${url}/getUser`, { user_id: user.uid });
     setCartData(res.data.findUser?.user_cart || []);
   } catch (err) {
     const msg = err.response?.data || err.message;
 
+    // ✅ Suppress "User not found" error gracefully
     if (msg === "User not found") {
-      console.log("Cart not available yet for:", uid);
-      return;
+      console.log("No user found yet, skipping cart fetch...");
+      return; // don't show toast
     }
 
     if (!suppressError) toast.error(msg);
   }
 };
 
-// Google Sign-in
+
+  // Get quantity of a product from cart
+  const getQuantity = (product_id) => {
+    const item = cartData.find((c) => c.product_id === product_id)
+    return item ? item.quantity : 0
+  }
+
+  // Add new product to cart
+  const addToCart = async (item) => {
+    if (!user) return toast.error('Please Sign-In First')
+    try {
+      await axios.post(`${url}/onAddCart`, {
+        user_id: user.uid,
+        cart_product: {
+          product_id: item.product_id,
+          title: item.name,
+          image: item.image,
+          price: item.price,
+          quantity: 1,
+          total: item.price,
+        },
+      })
+      await fetchCart()
+      toast.success('Added to cart')
+    } catch (err) {
+      toast.error(err.message)
+    }
+  }
+
+  // Update quantity in backend
+  const updateQuantity = async (item, type) => {
+    try {
+      const res = await axios.post(`${url}/updateQuantity`, {
+        user_id: user.uid,
+        product_id: item.product_id,
+        action: type, // "inc" or "dec"
+      })
+      setCartData(res.data.user_cart)
+    } catch (err) {
+      toast.error(err.message)
+    }
+  }
+
+  // Google Sign-in
+  // Google Sign-in
 const doSignInGoogle = async (e) => {
   if (e) e.preventDefault();
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    const gUser = result.user;
+    const user = result.user;
 
     const new_user = {
-      user_id: gUser.uid,
-      user_profile: gUser.photoURL,
-      user_name: gUser.displayName,
-      user_email: gUser.email,
+      user_id: user.uid,
+      user_profile: user.photoURL,
+      user_name: user.displayName,
+      user_email: user.email,
       user_cart: [],
     };
 
-    // 1. Ensure backend has the user
+    // ✅ Ensure backend has the user before fetching cart
     const res = await axios.post(`${url}/addUser`, new_user);
 
     if (res.data === "User Added") {
@@ -105,70 +151,12 @@ const doSignInGoogle = async (e) => {
       toast.success("Welcome back!");
     }
 
-    // 2. Now fetch the cart for this UID (not from context yet)
-    await fetchCart(gUser.uid, true);
-
+    // ✅ Only fetch cart AFTER user creation success
+    setTimeout(() => fetchCart(true), 300); // small delay to let backend update
   } catch (e) {
-    console.error("Google Sign-In Error:", e.message);
-    toast.error("Sign in failed. Please try again.");
+    toast.error(e.message);
   }
 };
-
-
-
-
-  // Get quantity of a product from cart
-  const getQuantity = (id) => {
-    const item = cartData.find((c) => c.product_id === id);
-    return item ? item.quantity : 0;
-  };
-  
-
-  // Add new product to cart
-const addToCart = async (item) => {
-  if (!user) return toast.error('Please Sign-In First')
-  try {
-    await axios.post(`${url}/onAddCart`, {
-      user_id: user.uid,
-      cart_product: {
-        product_id: item._id,   
-        title: item.name,
-        image: item.image,
-        price: item.price,
-        quantity: 1,
-        total: item.price,
-      },
-    });
-    await fetchCart(user.uid)   // ✅ FIXED
-    toast.success('Added to cart')
-  } catch (err) {
-    toast.error(err.message)
-  }
-}
-
-// useEffect for cart
-useEffect(() => {
-  if (!user) return
-  fetchCart(user.uid)  // ✅ FIXED
-}, [user])
-
-
-  // Update quantity in backend
-  const updateQuantity = async (item, type) => {
-    try {
-      const res = await axios.post(`${url}/updateQuantity`, {
-        user_id: user.uid,
-        product_id: item._id,   
-        action: type,
-      });
-      setCartData(res.data.user_cart)
-    } catch (err) {
-      toast.error(err.message)
-    }
-  }
-
-  
-
 
 
   return (
@@ -240,15 +228,15 @@ useEffect(() => {
                     <div className='dish-bottom'>
                       <h3 className='dish-price'>{data.price}/-</h3>
 
-                      {getQuantity(data._id) > 0 ? (
+                      {getQuantity(data.product_id) > 0 ? (
                         <div className='quantity-controls'>
                           <button
-                            disabled={getQuantity(data._id) === 1}
+                            disabled={getQuantity(data.product_id) === 1}
                             onClick={() => updateQuantity(data, 'dec')}
                           >
                             <img src={assets.remove_icon_red} alt='remove' />
                           </button>
-                          <span>{getQuantity(data._id)}</span>
+                          <span>{getQuantity(data.product_id)}</span>
                           <button
                             onClick={() => updateQuantity(data, 'inc')}
                           >
