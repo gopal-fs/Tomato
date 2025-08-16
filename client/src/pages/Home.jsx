@@ -121,10 +121,11 @@ const doSignInGoogle = async (e) => {
 
 
   // Get quantity of a product from cart
-  const getQuantity = (product_id) => {
-    const item = cartData.find((c) => c.product_id === product_id)
-    return item ? item.quantity : 0
-  }
+  const getQuantity = (id) => {
+    const item = cartData.find((c) => c.product_id === id);
+    return item ? item.quantity : 0;
+  };
+  
 
   // Add new product to cart
   const addToCart = async (item) => {
@@ -133,14 +134,14 @@ const doSignInGoogle = async (e) => {
       await axios.post(`${url}/onAddCart`, {
         user_id: user.uid,
         cart_product: {
-          product_id: item.product_id,
+          product_id: item._id,   
           title: item.name,
           image: item.image,
           price: item.price,
           quantity: 1,
           total: item.price,
         },
-      })
+      });
       await fetchCart()
       toast.success('Added to cart')
     } catch (err) {
@@ -153,9 +154,9 @@ const doSignInGoogle = async (e) => {
     try {
       const res = await axios.post(`${url}/updateQuantity`, {
         user_id: user.uid,
-        product_id: item.product_id,
-        action: type, // "inc" or "dec"
-      })
+        product_id: item._id,   
+        action: type,
+      });
       setCartData(res.data.user_cart)
     } catch (err) {
       toast.error(err.message)
@@ -235,7 +236,7 @@ const doSignInGoogle = async (e) => {
                     <div className='dish-bottom'>
                       <h3 className='dish-price'>{data.price}/-</h3>
 
-                      {getQuantity(data.product_id) > 0 ? (
+                      {getQuantity(data._id) > 0 ? (
                         <div className='quantity-controls'>
                           <button
                             disabled={getQuantity(data.product_id) === 1}
