@@ -239,12 +239,12 @@ const doSignInGoogle = async (e) => {
                       {getQuantity(data._id) > 0 ? (
                         <div className='quantity-controls'>
                           <button
-                            disabled={getQuantity(data.product_id) === 1}
+                            disabled={getQuantity(data._id) === 1}
                             onClick={() => updateQuantity(data, 'dec')}
                           >
                             <img src={assets.remove_icon_red} alt='remove' />
                           </button>
-                          <span>{getQuantity(data.product_id)}</span>
+                          <span>{getQuantity(data._id)}</span>
                           <button
                             onClick={() => updateQuantity(data, 'inc')}
                           >
