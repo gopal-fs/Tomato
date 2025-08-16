@@ -990,13 +990,16 @@ input::-webkit-inner-spin-button {
 }
 
 @media(max-width:768px){
+    .container{
+        height: 500px;
+    }
     .download-images{
         display: flex;
         flex-direction: column;
         gap: 20px;
     }
     .onload p{
-        font-size: 35px;
+        font-size: 25px;
     }
     .sign-in{
         height: 32px;
