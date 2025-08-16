@@ -104,7 +104,7 @@ const Navbar = ({ menu, setMenu, doSignInGoogle }) => {
 
         <div className='funcs'>
           
-          <a  onClick={()=>navigate("/", { state: { section: "menu" } })}><img className='icons' src={assets.search_icon} alt='search' /></a>
+          <a  onClick={()=>navigate("/", { state: { section: "menu" } })}><img className='icons search-ic' src={assets.search_icon} alt='search' /></a>
           <div className="bag">
             <img
             src={assets.basket_icon}

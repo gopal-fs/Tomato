@@ -970,6 +970,9 @@ input::-webkit-inner-spin-button {
     border: none;
     padding: 8px 12px;
 }
+.search-ic{
+    margin-top: 10px;
+}
 @media(max-width:568px){
     .get-in-touch{
         display: none;
@@ -1075,7 +1078,7 @@ input::-webkit-inner-spin-button {
     }
 
     .overlay {
-        top: 25%;
+        top: 15%;
         width: 100%;
         left: 20px;
         max-width: 100%;
