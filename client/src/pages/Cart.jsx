@@ -118,7 +118,10 @@ const Cart = () => {
     return (
       <div className="cart-page-container">
         <Navbar />
-        <h2>Loading your cart...</h2>
+        <div className="onload">
+            <p>Loading your cart...</p>
+        </div>
+       
       </div>
     );
   }
