@@ -509,6 +509,10 @@ a{
     font-size: 16px;
     margin-bottom: 20px;
 }
+.con-con{
+    display: flex;
+    flex-direction: column;
+}
 
 .no-cartitems{
     display: flex;

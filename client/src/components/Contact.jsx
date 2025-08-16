@@ -23,9 +23,12 @@ const Contact = () => {
 
         </div>
     </div>
-
+    <div className='con-con'>
     <p className='copy'>Copyright 2024 <i className="fa-regular fa-copyright"></i> Tomato.com-All Rights Reserved.</p>
     <p className='copy-cat'>Created by  <a href="https://www.linkedin.com/in/gopala-krishna-pinapathuni-aa05a5366/" target="_blank" rel="noopener noreferrer">@Gopala Krishna</a></p>
+
+    </div>
+    
     </div>
   )
 }
