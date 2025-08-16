@@ -124,14 +124,13 @@ export const updateQuantity=async(req,res)=>{
         return res.status(400).send(err.message);
       }
 }
-
-
 export const placeOrder = async (req, res) => {
   try {
     const { delivery_address, cart_data, couponApplied } = req.body;
 
     const total = cart_data.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    // Calculate delivery fee
     let fee = 0;
     if (total < 300) fee = 20;
     else if (total >= 300 && total <= 1000) fee = 30;
@@ -140,6 +139,13 @@ export const placeOrder = async (req, res) => {
     let adjustedFee = fee;
     if (couponApplied) {
       adjustedFee = Math.max(0, fee - 20);
+    }
+
+    const finalAmount = total + adjustedFee;
+
+    // Minimum amount check for Stripe
+    if (finalAmount < 35) {
+      return res.status(400).send("Minimum order amount must be ₹35 or more for payment.");
     }
 
     const line_items = cart_data.map((data) => ({
@@ -166,13 +172,13 @@ export const placeOrder = async (req, res) => {
       });
     }
 
-    // Save order in DB first
+    // Save order in DB
     const order_id = uuid();
     const newOrder = new orderModel({
       ...delivery_address,
       order_id,
       user_cart: cart_data,
-      amount_paid: total+adjustedFee
+      amount_paid: finalAmount,
     });
     await newOrder.save();
 
@@ -187,7 +193,7 @@ export const placeOrder = async (req, res) => {
 
     res.json({ id: session.id, success: true });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     if (err.name === "ValidationError") {
       const firstError = Object.values(err.errors)[0].message;
       return res.status(400).send(firstError);
@@ -195,6 +201,7 @@ export const placeOrder = async (req, res) => {
     return res.status(500).send(err.message || "Something went wrong");
   }
 };
+
 
 
 export const deleteOrderDetails=async(req,res)=>{
