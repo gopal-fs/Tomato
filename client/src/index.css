@@ -55,7 +55,17 @@ a{
     align-items: center;
     min-height: 88vh;
 }
-
+.onload{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+.onload p{
+    font-size: 50px;
+}
 .funcs{
     display: flex;
     align-items: center;

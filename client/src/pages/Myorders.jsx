@@ -83,7 +83,12 @@ useEffect(() => {
     }));
   };
 
-  if (authLoading || loading) return <p>Loading...</p>;
+  if (authLoading || loading) return (
+    <div className='onload'>
+      <p>Loading Orders Please Wait...</p>
+    </div>
+  )
+
   
 
   return (
