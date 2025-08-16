@@ -971,7 +971,7 @@ input::-webkit-inner-spin-button {
     padding: 8px 12px;
 }
 .search-ic{
-    margin-top: 10px;
+    margin-top: 6px;
 }
 @media(max-width:568px){
     .get-in-touch{
@@ -1096,7 +1096,7 @@ input::-webkit-inner-spin-button {
         font-size: 28px;
     }
     .about-img{
-        height: 400px;
+        height: 300px;
     }
     .bottom-nav-links{
         display: none;
