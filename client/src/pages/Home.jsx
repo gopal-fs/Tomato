@@ -58,11 +58,8 @@ const Home = () => {
     fetchData()
   }, [])
 
-  // Fetch cart data
-  useEffect(() => {
-    if (!user) return
-    fetchCart()
-  }, [user])
+  
+  
 
   // 👇 inside fetchCart()
 // Fetch Cart
@@ -128,26 +125,33 @@ const doSignInGoogle = async (e) => {
   
 
   // Add new product to cart
-  const addToCart = async (item) => {
-    if (!user) return toast.error('Please Sign-In First')
-    try {
-      await axios.post(`${url}/onAddCart`, {
-        user_id: user.uid,
-        cart_product: {
-          product_id: item._id,   
-          title: item.name,
-          image: item.image,
-          price: item.price,
-          quantity: 1,
-          total: item.price,
-        },
-      });
-      await fetchCart()
-      toast.success('Added to cart')
-    } catch (err) {
-      toast.error(err.message)
-    }
+const addToCart = async (item) => {
+  if (!user) return toast.error('Please Sign-In First')
+  try {
+    await axios.post(`${url}/onAddCart`, {
+      user_id: user.uid,
+      cart_product: {
+        product_id: item._id,   
+        title: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: 1,
+        total: item.price,
+      },
+    });
+    await fetchCart(user.uid)   // ✅ FIXED
+    toast.success('Added to cart')
+  } catch (err) {
+    toast.error(err.message)
   }
+}
+
+// useEffect for cart
+useEffect(() => {
+  if (!user) return
+  fetchCart(user.uid)  // ✅ FIXED
+}, [user])
+
 
   // Update quantity in backend
   const updateQuantity = async (item, type) => {
