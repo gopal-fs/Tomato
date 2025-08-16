@@ -65,6 +65,7 @@ const Home = () => {
   }, [user])
 
   // 👇 inside fetchCart()
+// Fetch Cart
 const fetchCart = async (suppressError = false) => {
   if (!user) return;
   try {
@@ -73,15 +74,49 @@ const fetchCart = async (suppressError = false) => {
   } catch (err) {
     const msg = err.response?.data || err.message;
 
-    // ✅ Suppress "User not found" error gracefully
+    // Suppress "User not found" error
     if (msg === "User not found") {
       console.log("No user found yet, skipping cart fetch...");
-      return; // don't show toast
+      return;
     }
 
     if (!suppressError) toast.error(msg);
   }
 };
+
+// Google Sign-in
+const doSignInGoogle = async (e) => {
+  if (e) e.preventDefault();
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    const new_user = {
+      user_id: user.uid,
+      user_profile: user.photoURL,
+      user_name: user.displayName,
+      user_email: user.email,
+      user_cart: [],
+    };
+
+    // Ensure backend has user
+    const res = await axios.post(`${url}/addUser`, new_user);
+
+    if (res.data === "User Added") {
+      toast.success("Welcome! Your account has been created.");
+    } else if (res.data === "User already exists") {
+      toast.success("Welcome back!");
+    }
+
+    // ✅ Fetch cart only after user exists
+    await fetchCart(true);
+
+  } catch (e) {
+    console.error("Google Sign-In Error:", e.message);
+    toast.error("Sign in failed. Please try again.");
+  }
+};
+
 
 
   // Get quantity of a product from cart
@@ -126,37 +161,8 @@ const fetchCart = async (suppressError = false) => {
     }
   }
 
-  // Google Sign-in
-  // Google Sign-in
-const doSignInGoogle = async (e) => {
-  if (e) e.preventDefault();
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    const user = result.user;
+  
 
-    const new_user = {
-      user_id: user.uid,
-      user_profile: user.photoURL,
-      user_name: user.displayName,
-      user_email: user.email,
-      user_cart: [],
-    };
-
-    // ✅ Ensure backend has the user before fetching cart
-    const res = await axios.post(`${url}/addUser`, new_user);
-
-    if (res.data === "User Added") {
-      toast.success("Welcome! Your account has been created.");
-    } else if (res.data === "User already exists") {
-      toast.success("Welcome back!");
-    }
-
-    // ✅ Only fetch cart AFTER user creation success
-    setTimeout(() => fetchCart(true), 300); // small delay to let backend update
-  } catch (e) {
-    toast.error(e.message);
-  }
-};
 
 
   return (
