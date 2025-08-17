@@ -48,24 +48,32 @@ useEffect(() => {
       try {
         if (orderId && success) {
           await axios.post(`${url}/deleteCart`, { user_id: user.uid });
-          const res = await axios.get(`${url}/myorders?order_id=${orderId}&user_id=${user.uid}`);
-          localStorage.clearItem("cartSummary")
-          if (res.data.order) {
-            if (res.data.showToast) toast.success("Payment Successful!");
-
-            setOrders([res.data.order]);
-          } else {
+        
+          try {
+            const res = await axios.post(`${url}/myorders`, { order_id: orderId, user_id: user.uid });
+            localStorage.removeItem("cartSummary"); 
+        
+            if (res.data.order) {
+              if (res.data.showToast) toast.success("Payment Successful!");
+              setOrders([res.data.order]);
+            } else {
+              setNotFound(true);
+            }
+          } catch (err) {
+            toast.error("Failed to fetch this order");
+            console.log(err);
             setNotFound(true);
           }
         } else {
-          const res = await axios.get(`${url}/myorders?user_id=${user.uid}`);
-          if (res.data.orders && res.data.orders.length > 0) {
+          const res = await axios.post(`${url}/myorders`, { user_id: user.uid });
+          if (res.data.orders?.length > 0) {
             const sortedOrders = res.data.orders.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
             setOrders(sortedOrders);
           } else {
             setNotFound(true);
           }
         }
+        
       } catch (err) {
         console.log(err);
         toast.error("Failed to fetch orders");
