@@ -26,7 +26,7 @@ const Cart = () => {
       const params = new URLSearchParams(search);
 
     if (params.get("canceled") === "true") {
-      toast.error("Payment Canceled by user!");
+      toast.error("Payment canceled you will be redirected to your cart.");
       const order_id= params.get("order_id")
       if(order_id){
         try{
@@ -34,7 +34,7 @@ const Cart = () => {
           setTimeout(()=>{
             navigate('/cart')
 
-          },5000)
+          },3000)
           
           
         }

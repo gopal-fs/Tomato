@@ -50,12 +50,12 @@ useEffect(() => {
           await axios.post(`${url}/deleteCart`, { user_id: user.uid });
           const res = await axios.get(`${url}/myorders?order_id=${orderId}&user_id=${user.uid}`);
           if (res.data.order) {
-            if (res.data.showToast) toast.success("Payment Successful!");
+            if (res.data.showToast) toast.success("Payment successful you will be redirected to your orders");
             setOrders([res.data.order]);
             setTimeout(()=>{
               navigate('/myorders')
   
-            },5000)
+            },3000)
           } else {
             setNotFound(true);
           }
