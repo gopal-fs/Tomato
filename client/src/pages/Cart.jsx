@@ -31,6 +31,7 @@ const Cart = () => {
       if(order_id){
         try{
           const deleteOrder= await axios.post(`${url}/deleteOrder`,{order_id:order_id})
+          navigate('/cart')
           
         }
         catch(err){
