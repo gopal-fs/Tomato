@@ -52,6 +52,10 @@ useEffect(() => {
           if (res.data.order) {
             if (res.data.showToast) toast.success("Payment Successful!");
             setOrders([res.data.order]);
+            setTimeout(()=>{
+              navigate('/myorders')
+  
+            },5000)
           } else {
             setNotFound(true);
           }
