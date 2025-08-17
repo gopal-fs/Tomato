@@ -31,7 +31,7 @@ const Cart = () => {
       if(order_id){
         try{
           const deleteOrder= await axios.post(`${url}/deleteOrder`,{order_id:order_id})
-          toast.success(deleteOrder.data)
+          
         }
         catch(err){
           console.log(err.message)
