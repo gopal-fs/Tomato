@@ -109,7 +109,7 @@ const Cart = () => {
         localStorage.setItem("cartSummary", JSON.stringify(summary));
         return toast.success("Coupon Applied!");
       }
-      return toast.error("Coupon Cannot be Applied");
+      return toast.error("Coupon Already Applied");
     }
 
     return toast.error("Invalid Coupon");
