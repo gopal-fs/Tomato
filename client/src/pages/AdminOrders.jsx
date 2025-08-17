@@ -29,7 +29,7 @@ const AdminOrders = () => {
   const onChangeProductStatus = async (id, event) => {
     const status = event.target.value;
 
-    // Optimistic UI update
+    
     const prevOrders = [...orders];
     setOrders(prev =>
       prev.map(order =>
@@ -41,7 +41,7 @@ const AdminOrders = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
-        // Ensure local state matches backend
+        
         setOrders(prev =>
           prev.map(order =>
             order._id === id ? { ...order, status: res.data.order.status } : order
@@ -53,7 +53,7 @@ const AdminOrders = () => {
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to update status");
       console.error(err);
-      // Rollback to previous state
+      
       setOrders(prevOrders);
     }
   };
@@ -79,7 +79,7 @@ const AdminOrders = () => {
 
                 <select
                   onChange={(event) => onChangeProductStatus(order._id, event)}
-                  value={order.status || "Food Processing"} // fallback value
+                  value={order.status || "Food Processing"} 
                 >
                   <option value="Food Processing">Food Processing</option>
                   <option value="Out for delivery">Out for delivery</option>

@@ -28,7 +28,7 @@ const Order = () => {
       user_id: user.uid
     };
 
-    // Frontend phone validation
+    
     if (!/^[6-9]\d{9}$/.test(finalOrderData.number)) {
       return toast.error("Please enter a valid 10-digit Indian phone number");
     }
@@ -36,7 +36,7 @@ const Order = () => {
     try {
       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
-      // Fetch user's cart from backend
+      
       const userData = await axios.post(`${url}/getUser`, { user_id: user.uid });
 
       const result = await axios.post(`${url}/placeOrder`, {
@@ -47,7 +47,7 @@ const Order = () => {
 
       const sessionId = result.data.id;
 
-      // Redirect to Stripe Checkout
+      
       const { error } = await stripe.redirectToCheckout({ sessionId });
 
       if (error) {
@@ -58,7 +58,7 @@ const Order = () => {
 
     } catch (err) {
       console.error(err);
-      // Show backend or Stripe error in toast
+     
       if (err.response?.data) {
         toast.error(err.response.data);
       } else if (err.message) {

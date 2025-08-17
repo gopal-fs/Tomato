@@ -30,7 +30,7 @@ const Home = () => {
   const [products, setProducts] = useState([])
   const [cartData, setCartData] = useState([])
 
-  // Scroll on menu change
+  
   useEffect(() => {
     const ref = sectionRefs[menu]
     if (ref && ref.current) {
@@ -45,7 +45,7 @@ const Home = () => {
     }
   }, [location.state])
 
-  // Fetch foods
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,13 +58,13 @@ const Home = () => {
     fetchData()
   }, [])
 
-  // Fetch cart data
+  
   useEffect(() => {
     if (!user) return
     fetchCart()
   }, [user])
 
-  // 👇 inside fetchCart()
+  
 const fetchCart = async (suppressError = false) => {
   if (!user) return;
   try {
@@ -73,7 +73,7 @@ const fetchCart = async (suppressError = false) => {
   } catch (err) {
     const msg = err.response?.data || err.message;
 
-    // ✅ Suppress "User not found" error gracefully
+    
     if (msg === "User not found") {
       console.log("No user found yet, skipping cart fetch...");
       return; 
@@ -84,13 +84,13 @@ const fetchCart = async (suppressError = false) => {
 };
 
 
-  // Get quantity of a product from cart
+
   const getQuantity = (product_id) => {
     const item = cartData.find((c) => c.product_id === product_id)
     return item ? item.quantity : 0
   }
 
-  // Add new product to cart
+ 
   const addToCart = async (item) => {
     if (!user) return toast.error('Please Sign-In First')
     try {
@@ -112,13 +112,13 @@ const fetchCart = async (suppressError = false) => {
     }
   }
 
-  // Update quantity in backend
+ 
   const updateQuantity = async (item, type) => {
     try {
       const res = await axios.post(`${url}/updateQuantity`, {
         user_id: user.uid,
         product_id: item.product_id,
-        action: type, // "inc" or "dec"
+        action: type, 
       })
       setCartData(res.data.user_cart)
     } catch (err) {
@@ -126,8 +126,7 @@ const fetchCart = async (suppressError = false) => {
     }
   }
 
-  // Google Sign-in
-  // Google Sign-in
+
 const doSignInGoogle = async (e) => {
   if (e) e.preventDefault();
   try {
@@ -142,7 +141,7 @@ const doSignInGoogle = async (e) => {
       user_cart: [],
     };
 
-    // ✅ Ensure backend has the user before fetching cart
+   
     const res = await axios.post(`${url}/addUser`, new_user);
 
     if (res.data === "User Added") {
@@ -151,8 +150,8 @@ const doSignInGoogle = async (e) => {
       toast.success("Welcome back!");
     }
 
-    // ✅ Only fetch cart AFTER user creation success
-    setTimeout(() => fetchCart(true), 300); // small delay to let backend update
+    
+    setTimeout(() => fetchCart(true), 300); 
   } catch (e) {
     console.log(e.message)
   }
@@ -163,7 +162,7 @@ const doSignInGoogle = async (e) => {
     <div className='bg-container'>
       <Navbar menu={menu} setMenu={setMenu} doSignInGoogle={doSignInGoogle} />
 
-      {/* Hero Section */}
+      
       <section id='section-home' className='hero-section' ref={homeRef}>
         <div className='container'>
           <img src={assets.header_img} alt='Food Item' />
@@ -187,7 +186,7 @@ const doSignInGoogle = async (e) => {
         <div className='menu-card'>
           <h1>Explore our menu</h1>
           <p className='menu-text'>
-            Choose from a diverse menu featuring a delectable array of dishes.
+          Choose from a diverse menu featuring a delectable array of dishes crafted with the finest ingredients...
           </p>
           <div className='menu-list-container'>
             {menu_list.map((data, index) => (
@@ -259,7 +258,7 @@ const doSignInGoogle = async (e) => {
         </div>
       </section>
 
-      {/* About Section */}
+      
       <section id='section-about' className='section-about' ref={aboutRef}>
         <h1>About Us</h1>
         <div className='about-container'>
@@ -292,7 +291,7 @@ const doSignInGoogle = async (e) => {
         </div>
       </section>
 
-      {/* Download Section */}
+    
       <div className='download-section'>
         <h1>
           For Better Experience Download
@@ -317,7 +316,7 @@ const doSignInGoogle = async (e) => {
         </div>
       </div>
 
-      {/* Contact Section */}
+    
       <section id='section-contact' ref={contactRef}>
         <Contact />
       </section>

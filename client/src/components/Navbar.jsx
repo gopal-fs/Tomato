@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { assets } from '../assets/frontend_assets/assets.js'
 import { Navigate, useNavigate } from 'react-router'
 import { authContext } from '../context/useContext.jsx'
-import { FaArrowRightFromBracket } from "react-icons/fa6"; // FontAwesome logout icon
 import toast from 'react-hot-toast';
 import axios from 'axios';
 

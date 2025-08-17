@@ -20,7 +20,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const coupon = import.meta.env.VITE_COUPON;
 
-  // Show toast if payment canceled
+ 
   useEffect(() => {
     const fetch=async()=>{
       const params = new URLSearchParams(search);
@@ -50,7 +50,7 @@ const Cart = () => {
     
   }, [search]);
 
-  // Fetch user's cart from backend
+
   useEffect(() => {
     if (!user?.uid) return;
 
@@ -68,7 +68,6 @@ const Cart = () => {
     fetchData();
   }, [user]);
 
-  // Calculate subtotal, delivery fee, and save cart summary
   useEffect(() => {
     const total = cartData.reduce((acc, cart) => acc + (cart.total || cart.price * cart.quantity), 0);
 
@@ -98,7 +97,7 @@ const Cart = () => {
     );
   }, [cartData]);
 
-  // Apply coupon
+ 
   const onSubmitCoupon = () => {
     const code = document.getElementById("promo").value.trim();
 
@@ -120,10 +119,10 @@ const Cart = () => {
     return toast.error("Invalid Coupon");
   };
 
-  // Navigate to order page
+  
   const onAppendOrder = () => navigate("/order");
 
-  // Remove item from cart
+  
   const onRemoveCartItem = async (item) => {
     try {
       const res = await axios.post(`${url}/onUpdateCart`, { user_id: user.uid, product_id: item.product_id });
