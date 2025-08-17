@@ -35,13 +35,14 @@ Tomato is a modern, full-stack food ordering web application. It allows users to
 ---
 
 ## **Technologies Used**
-- **Frontend:** React.js, CSS, React Router, React Context API  
+- **Frontend:** React.js, CSS, React Router, React Context API,React Hooks  
 - **Backend:** Node.js, Express.js  
 - **Database:** MongoDB, Mongoose  
 - **Authentication:** Firebase Authentication (Google Sign-In)  
-- **Payment Gateway:** Stripe  
+- **Payment Gateway:** Stripe   Payments
 - **Image Hosting:** Cloudinary  
-- **Deployment:** Vercel 
+- **Frontend-Deployment:** Vercel
+- **Backend-Deployment:** Render
 
 ---
 
@@ -53,18 +54,25 @@ Tomato/
 │   ├── src/
 │   │   ├── assets/    # Images, icons, frontend assets
 │   │   ├── components/
+│   │   ├── configs/
+│   │   ├── layouts/
 │   │   ├── context/
 │   │   ├── hooks/
 │   │   └── pages/
 │   └── package.json
+    └── .env
 ├── server/            # Node.js backend
 │   ├── controllers/
+│   ├── configs/
 │   ├── models/
 │   ├── routes/
 │   └── package.json
+|   └── server.js
+|   └── .env
 ├── .gitignore
 ├── README.md
-└── .env
+
+
 
 ````
 
@@ -83,8 +91,7 @@ cd tomato
 cd server
 npm install
 cp .env.example .env   # Add your MongoDB URL, Stripe keys, Cloudinary keys
-node seedProducts.js   # Seed initial food data
-npm start              # Start backend server
+node server.js         # Start backend server
 ```
 
 ### **3. Setup Frontend**
@@ -98,7 +105,7 @@ npm run dev            # Start frontend development server
 
 ### **4. Open in Browser**
 
-Visit [http://localhost:5173](http://localhost:5173) to access Tomato.
+Visit https://tomato-tau-three.vercel.app/ to access Tomato.
 
 ---
 
