@@ -27,7 +27,7 @@ const Navbar = ({ menu, setMenu, doSignInGoogle }) => {
             
             setCartData(res.data.findUser.user_cart || []);
         } catch (err) {
-            toast.error(err.response?.data || err.message);
+            console.log(err.message)
         }
     };
 

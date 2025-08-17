@@ -22,10 +22,27 @@ const Cart = () => {
 
   // Show toast if payment canceled
   useEffect(() => {
-    const params = new URLSearchParams(search);
+    const fetch=async()=>{
+      const params = new URLSearchParams(search);
+
     if (params.get("canceled") === "true") {
       toast.error("Payment Canceled by user!");
+      const order_id= params.get("order_id")
+      if(order_id){
+        try{
+          const deleteOrder= await axios.post(`${url}/deleteOrder`,{order_id:order_id})
+          toast.success(deleteOrder.data)
+        }
+        catch(err){
+          console.log(err.message)
+        }
+        
+      }
     }
+
+    }
+    fetch()
+    
   }, [search]);
 
   // Fetch user's cart from backend

@@ -49,8 +49,10 @@ useEffect(() => {
         if (orderId && success) {
           await axios.post(`${url}/deleteCart`, { user_id: user.uid });
           const res = await axios.get(`${url}/myorders?order_id=${orderId}&user_id=${user.uid}`);
+          localStorage.clearItem("cartSummary")
           if (res.data.order) {
             if (res.data.showToast) toast.success("Payment Successful!");
+
             setOrders([res.data.order]);
           } else {
             setNotFound(true);
