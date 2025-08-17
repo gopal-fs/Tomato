@@ -106,7 +106,7 @@ const fetchCart = async (suppressError = false) => {
         },
       })
       await fetchCart()
-      toast.success('Added to cart')
+      toast.success(`${item.name} Added to cart`)
     } catch (err) {
       toast.error(err.message)
     }
