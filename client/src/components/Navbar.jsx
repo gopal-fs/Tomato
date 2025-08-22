@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from 'react-router'
 import { authContext } from '../context/useContext.jsx'
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { FaArrowRightFromBracket } from "react-icons/fa6";
 
 
 const Navbar = ({ menu, setMenu, doSignInGoogle }) => {
