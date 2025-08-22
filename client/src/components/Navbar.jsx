@@ -16,8 +16,6 @@ const Navbar = ({ menu, setMenu, doSignInGoogle }) => {
 
 
   useEffect(() => {
-
-
     if (!user?.uid) {
         console.log("User not ready yet");
         return;
@@ -25,7 +23,7 @@ const Navbar = ({ menu, setMenu, doSignInGoogle }) => {
     const fetchData = async () => {
         try {
             const res = await axios.post(`${url}/getUser`, { user_id: user.uid });
-            
+
             
             setCartData(res.data.findUser.user_cart || []);
         } catch (err) {
