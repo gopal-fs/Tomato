@@ -17,6 +17,7 @@ const Navbar = ({ menu, setMenu, doSignInGoogle }) => {
 
   useEffect(() => {
 
+    
     if (!user?.uid) {
         console.log("User not ready yet");
         return;
